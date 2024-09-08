@@ -1,0 +1,8 @@
+require:
+  - rubocop-rails
+  - rubocop-performance
+
+# Disable inline documentation since it is not practical or desired
+# to add it to every class and module.
+Style/Documentation:
+  Enabled: false
