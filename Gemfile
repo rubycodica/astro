@@ -12,7 +12,7 @@ gem 'propshaft', '0.9.1'
 gem 'pg', '1.5.8'
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem 'puma', '6.4.2'
+gem 'puma', '6.4.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '1.18.4', require: false
