@@ -42,7 +42,7 @@ group :development do
   # RuboCop is a Ruby code style checking and code formatting tool.
   gem 'rubocop', '1.66.1', require: false
   # Automatic Rails code style checking tool.
-  gem 'rubocop-rails', '2.26.1', require: false
+  gem 'rubocop-rails', '2.26.2', require: false
   # A collection of RuboCop cops to check for performance optimizations in Ruby code.
   gem 'rubocop-performance', '1.21.1', require: false
 end
