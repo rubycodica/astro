@@ -37,7 +37,7 @@ end
 
 group :development do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem 'brakeman', '6.2.1', require: false
+  gem 'brakeman', '6.2.2', require: false
 
   # RuboCop is a Ruby code style checking and code formatting tool.
   gem 'rubocop', '1.66.1', require: false
