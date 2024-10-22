@@ -1,0 +1,8 @@
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/20241022194241_create_products.rb'
+    - 'db/migrate/20241022200228_create_active_storage_tables.active_storage.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/20241022200228_create_active_storage_tables.active_storage.rb'
