@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddAncestryToCategory < ActiveRecord::Migration[7.2]
+class AddAncestryToCategory < ActiveRecord::Migration[8.0]
   def up
     change_table :categories, bulk: true do |t|
       t.column :ancestry, :string, collation: 'C', null: false, default: '/'

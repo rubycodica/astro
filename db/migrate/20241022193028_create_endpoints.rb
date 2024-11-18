@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateEndpoints < ActiveRecord::Migration[7.2]
+class CreateEndpoints < ActiveRecord::Migration[8.0]
   def change
     create_table :endpoints do |t|
       t.string :url, null: false

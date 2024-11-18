@@ -5,6 +5,9 @@ require:
   - rubocop-rails
   - rubocop-performance
 
+AllCops:
+  NewCops: enable
+
 # Disable inline documentation since it is not practical or desired
 # to add it to every class and module.
 Style/Documentation:
