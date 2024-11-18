@@ -46,8 +46,14 @@ gem 'stimulus-rails', '1.3.4'
 # High-level wrapper for processing images for the web with ImageMagick or libvips.
 gem 'image_processing', '1.13.0'
 
+# Service objects for your application logic
+gem 'service_actor', '3.9.4'
+
 # Ancestry allows the records of a ActiveRecord model to be organized in a tree structure
 gem 'ancestry', '4.3.3'
+
+# Mimicing the behavior of a user interacting with a website.
+gem 'watir', '7.3.0'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
