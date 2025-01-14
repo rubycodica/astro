@@ -1,0 +1,16 @@
+<div class="p-2 flex flex-col sm:flex-row rounded border-2 border-gray-300 mb-4">
+  <div><%= image_tag @product.image %></div>
+  <div class="p-2 flex flex-col border-t-2 sm:border-t-0 sm:border-l-2 leading-9">
+    <p><b><%= @product.name %></b></p>
+    <p>Ціна: <%= number_to_currency @product.price_in_uah, precision: 2, locale: :uk %></p>
+    <p>Кількість: <%= @product.amount || '-' %></p>
+    <% if @product.on_sale? %>
+      <p>Знижка: <u class="text-red-600"><%= @product.discount_rate %>%</u></p>
+      <p><u>Ціна зі знижкою: <%= number_to_currency @product.discount_price_in_uah, precision: 2, locale: :uk %></u></p>
+      <p>Знижка закінчується: <%= @product.discount_expires_on.strftime('%d.%m.%Y') %></p>
+    <% end %>
+    <p>Магазин: <%= @product.shop.name %></p>
+    <p>Категорія: <%= @product.category.name %></p>
+    <%= link_to 'Посилання на магазин', @product.url_to_shop, class: 'text-blue-600', target: :_blank %>
+  </div>
+</div>
