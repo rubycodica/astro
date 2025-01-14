@@ -1,0 +1,16 @@
+<div class="p-4 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6">
+  <% @products.each do |product| %>
+    <%= link_to product do %>
+      <div class="group relative">
+        <div class="mb-4 h-60 aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-md group-hover:opacity-75 sm:h-60 md:h-64 lg:h-72 xl:h-80">
+          <%= image_tag product.image, alt: product.name, class: 'h-full w-full object-cover rounded-md object-center' %>
+        </div>
+        <div>
+          <h3 class="text-sm text-gray-700">
+            <%= product.name %>
+          </h3>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

@@ -26,4 +26,10 @@ class Product < ApplicationRecord
   def discount_price_in_uah=(uah)
     self.discount_price = (uah * 100).to_i
   end
+
+  def on_sale?
+    return false if discount_expires_on.blank?
+
+    discount_expires_on >= Date.current
+  end
 end
