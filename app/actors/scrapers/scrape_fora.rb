@@ -4,6 +4,8 @@ module Scrapers
   class ScrapeFora < Actor
     AVAILABLE = Product.statuses.key(0)
     OUT_OF_STOCK = Product.statuses.key(1)
+    CITY = 'м. Київ'
+    STREET = 'вул. Печенізька, 1/7а'
 
     input :endpoints
 
@@ -15,29 +17,58 @@ module Scrapers
 
     def scrape_products(endpoints)
       endpoints.each do |endpoint|
-        browser = Watir::Browser.new :firefox, headless: true
-        browser.goto(endpoint.url)
+        main_window = Watir::Browser.new :firefox, headless: true
+        additional_window = Watir::Browser.new :firefox, headless: true
+
+        main_window.goto(endpoint.url)
+        additional_window.goto(endpoint.url)
+
+        select_local_store(main_window)
+        select_local_store(additional_window)
 
         loop do
           sleep 3
-          products_in_divs = browser.ul(class: 'product-list').children.to_a
+          products_in_divs = main_window.ul(class: 'product-list').children.to_a
           products_in_divs.delete_if { |d| d.class_name.include?('special-proposals-wrapper') }
 
-          proceed(products_in_divs, endpoint)
+          proceed(additional_window, products_in_divs, endpoint)
 
-          break if browser.div(class: 'pagination-link next disabled').present?
+          break if main_window.div(class: 'pagination-link next disabled').present?
 
-          browser.div(class: 'pagination-link next').scroll.to
-          browser.div(class: 'pagination-link next').click
+          main_window.div(class: 'pagination-link next').scroll.to
+          main_window.div(class: 'pagination-link next').click
         end
-        browser.close
+        additional_window.close
+        main_window.close
       rescue StandardError => e
         Rails.logger.error e
-        browser&.close
+        additional_window&.close
+        main_window&.close
       end
     end
 
-    def proceed(products_in_divs, endpoint)
+    def select_local_store(window)
+      window.li(class: 'location').click
+      sleep 3
+      window.div(class: 'button-switch-item', text: 'Самовивіз').click
+      sleep 3
+      window.is(class: 'icon-cross')[1].click
+      sleep 1
+      window.input(class: 'store-select__city').click
+      sleep 1
+      window.div(class: 'store-select__autocomplete-item', text: CITY).click
+      sleep 1
+      if window.is(class: 'icon-cross').count.eql?(2)
+        window.input(class: 'store-select__store').click
+        sleep 1
+        window.div(class: 'store-select__autocomplete-item', text: STREET).click
+        sleep 1
+      end
+      sleep 3
+      window.a(class: 'btn btn-primary', text: 'Обрати супермаркет').click
+    end
+
+    def proceed(additional_window, products_in_divs, endpoint)
       products_in_divs.each do |div|
         next if div.button(text: 'Переглянути').present?
 
@@ -57,7 +88,7 @@ module Scrapers
           ::Scrapers::UpdateProduct.call(scraped_product: product, existing_product: existing_product)
         else
           next if product[:status].eql?(OUT_OF_STOCK)
-          next if scrape_additionally_for_new_product(product).blank?
+          next if scrape_additionally_for_new_product(additional_window, product).blank?
 
           product[:name] = div.div(class: 'product-title').text.tr('«»®?', '')
           product[:amount] = div.div(class: 'product-weight').text
@@ -96,38 +127,33 @@ module Scrapers
       product[:discount_price_in_uah] = current_price
     end
 
-    def scrape_additionally_for_new_product(product)
-      tmp_brows = Watir::Browser.new :firefox, headless: true
+    def scrape_additionally_for_new_product(additional_window, product)
+      additional_window.goto(product[:url_to_shop])
 
-      tmp_brows.goto(product[:url_to_shop])
+      return false if scrape_image(additional_window, product).blank?
 
-      return nil if scrape_image(tmp_brows, product).blank?
-
-      if tmp_brows.div(text: '% спирту').present?
-        product[:alcohol_rate] = tmp_brows.div(text: '% спирту').parent.divs[1].text.to_f
+      if additional_window.div(text: '% спирту').present?
+        product[:alcohol_rate] = additional_window.div(text: '% спирту').parent.divs[1].text.to_f
       end
 
-      tmp_brows.close
+      true
     rescue StandardError => e
       Rails.logger.error e
-      tmp_brows&.close
+      false
     end
 
-    def scrape_image(tmp_brows, product)
+    def scrape_image(additional_window, product)
       retries = 3
       loop do
         sleep 3
-        src = tmp_brows.div(class: 'product-preview_carousel').img.src
-        return nil if src.include?('no_photo')
+        src = additional_window.div(class: 'product-preview_carousel').img.src
+        return false if src.include?('no_photo')
 
         product[:image] = URI.parse(src).open
         retries -= 1
         break if product[:image].is_a?(Tempfile) || retries.zero?
       end
-      if retries.zero?
-        tmp_brows.close
-        return nil
-      end
+      return false if retries.zero?
 
       raw_image_name = product[:url_to_shop].split('/')[4].split('-')
       raw_image_name.pop

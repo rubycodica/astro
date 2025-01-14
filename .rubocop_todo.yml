@@ -1,18 +1,22 @@
 Metrics/MethodLength:
   Exclude:
-    - 'db/migrate/20241022194241_create_products.rb'
-    - 'db/migrate/20241022200228_create_active_storage_tables.active_storage.rb'
-    - 'app/actors/scrapers/scrape_fora.rb'
+    - db/migrate/20241022194241_create_products.rb
+    - db/migrate/20241022200228_create_active_storage_tables.active_storage.rb
+    - app/actors/scrapers/scrape_fora.rb
 
 Metrics/AbcSize:
   Exclude:
-    - 'db/migrate/20241022200228_create_active_storage_tables.active_storage.rb'
-    - 'app/actors/scrapers/scrape_fora.rb'
+    - db/migrate/20241022200228_create_active_storage_tables.active_storage.rb
+    - app/actors/scrapers/scrape_fora.rb
 
 Metrics/CyclomaticComplexity:
   Exclude:
-    - 'app/actors/scrapers/scrape_fora.rb'
+    - app/actors/scrapers/scrape_fora.rb
 
 Metrics/PerceivedComplexity:
   Exclude:
-    - 'app/actors/scrapers/scrape_fora.rb'
+    - app/actors/scrapers/scrape_fora.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - app/actors/scrapers/scrape_fora.rb

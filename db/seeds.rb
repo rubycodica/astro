@@ -9,3 +9,15 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+ApplicationRecord.transaction do
+  shop = Shop.create!(name: 'Фора')
+
+  category = Category.create!(name: 'Хліб та випічка')
+
+  subcategory = Category.create!(name: 'Хлібобулочні вироби', parent: category)
+
+  subsubcategory = Category.create!(name: 'Хліб', parent: subcategory)
+
+  Endpoint.create!(url: 'https://fora.ua/category/khlib-2912', shop: shop, category: subsubcategory)
+end
