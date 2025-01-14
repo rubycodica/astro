@@ -2,10 +2,10 @@
 
 source 'https://rubygems.org'
 
-ruby '3.3.6'
+ruby '3.4.1'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '8.0.0'
+gem 'rails', '8.0.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '1.5.9'
@@ -14,21 +14,21 @@ gem 'pg', '1.5.9'
 gem 'propshaft', '1.1.0'
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem 'puma', '6.4.3'
+gem 'puma', '6.5.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '1.18.4', require: false
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
-gem 'solid_cable', '3.0.2'
+gem 'solid_cable', '3.0.5'
 gem 'solid_cache', '1.0.6'
-gem 'solid_queue', '1.0.2'
+gem 'solid_queue', '1.1.2'
 
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
-gem 'kamal', '2.3.0', require: false
+gem 'kamal', '2.4.0', require: false
 
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
-gem 'thruster', '0.1.9', require: false
+gem 'thruster', '0.1.10', require: false
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', '2.0.6', platforms: %i[windows jruby]
@@ -57,17 +57,17 @@ gem 'watir', '7.3.0'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem 'debug', '1.9.2', platforms: %i[mri windows], require: 'debug/prelude'
+  gem 'debug', '1.10.0', platforms: %i[mri windows], require: 'debug/prelude'
 end
 
 group :development do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem 'brakeman', '6.2.2', require: false
+  gem 'brakeman', '7.0.0', require: false
 
   # RuboCop is a Ruby code style checking and code formatting tool.
-  gem 'rubocop', '1.68.0', require: false
+  gem 'rubocop', '1.70.0', require: false
   # Automatic Rails code style checking tool.
-  gem 'rubocop-rails', '2.27.0', require: false
+  gem 'rubocop-rails', '2.28.0', require: false
   # A collection of RuboCop cops to check for performance optimizations in Ruby code.
-  gem 'rubocop-performance', '1.23.0', require: false
+  gem 'rubocop-performance', '1.23.1', require: false
 end
